@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Hello HomeController!
+{% endblock %}
+
+{% block body %}
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Album example</h1>
+      <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+      <p>
+        <a href="#" class="btn btn-primary my-2">Main call to action</a>
+        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+      </p>
+    </div>
+  </section>
+  <div class="d-flex justify-content-center">
+    {{form_start(formulaire)}}
+    {{form_row(formulaire.titre)}}
+    {{form_row(formulaire.submit)}}
+    {{form_end(formulaire)}}
+
+  </div>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for book in books %}
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <img class="card-img-top" src={{asset('assets/bookCovers/'~book.picture)}} alt="Card image cap" style="height:400px" />
+              <div class="card-body" >
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">{{ book.description|slice(0,100)~(book.description|length>100 ? '...' : '') }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    {# <a href="{{path('app_single_book')}}?id={{book.id}}>Voir</a> #}
+                    <a href="{{path('app_single_book',{'id':book.id})}}" type="button" class="btn btn-sm btn-outline-secondary">Voir</a>
+                  </div>
+                  <small class="text-muted">{{book.createdAt|date('Y-m-d')}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

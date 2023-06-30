@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Liste Utilisateur
+{% endblock %}
+
+{% block body %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Téléphone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Adresse</th>
+        <th scope="col">Date d'enregistrement</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for user in users %}
+        <tr>
+          <th scope="row">{{ user.id }}</th>
+          {# {{user.last_name}}  {{user.first_name}} #}
+          <td>{{user.lastName}}</td> 
+          <td>{{user.firstName}}</td>
+          <td>{{ user.telephone }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.createdAt|date('d/m/Y') }}</td>
+          <td>
+            <a href="#" class="btn btn-danger">Supprimer</a>
+            <a href="#" class="btn btn-warning">Modifier</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

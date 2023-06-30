@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Hello SingleBookController!
+{% endblock %}
+
+{% block body %}
+  <h1 class="text-center text-muted mt-4 mb-4">Livre n° {{ book.id }}</h1>
+  <div class="container-fluid mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10">
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="images p-3">
+                <div class="text-center p-4">
+                  <img id="main-image" src={{asset('assets/bookCovers/'~book.picture)}} width="250" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="product p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <i class="fa fa-long-arrow-left"></i> <span class="ml-1">{{book.author}}</span>
+                  </div> <i class="fa fa-shopping-cart text-muted"></i>
+                </div>
+                <div class="mt-4 mb-3">
+                  <h5 class="text-uppercase">{{ book.title }}</h5>
+                  <div class="price d-flex flex-row align-items-center">
+                    <span class="act-price">{{book.createdAt|date('Y-m-d')}}</span>
+                  </div>
+                </div>
+                <p class="about">{{book.description}}</p>
+
+                <div class="cart mt-4 align-items-center">
+                  <a class="btn btn-danger text-uppercase mr-2 px-4" data-toggle="modal" data-target="#exampleModal">Supprimer</a> 
+                  <a href="{{ path('app_edit_book', {'id': book.id}) }}" type="button" class="btn btn-info text-uppercase px-4">Modifier</a>
+                <a class="btn btn-warning text-uppercase mr-2 px-4" data-toggle="modal" data-target="#exampleModal2">Ajouter un Commentaire</a> 
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    {% for comment in book.comments %}
+      <hr>
+      <div class="mx-5">
+       Pseudo : <strong>{{comment.sender}}</strong> publié le <cite>{{comment.createdAt|date('Y-m-d')}}</cite> <br>
+      {{comment.text}}
+      </div>
+      <hr>
+    {% endfor %}
+  
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Attention action irréversible</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous vraiment supprimer ce livre ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+        <a href="{{ path('app_single_book_remove', {'id': book.id}) }}" type="button" class="btn btn-primary">OUI</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Commentaire-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nouveau Commentaire</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{form(formulaire)}}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
